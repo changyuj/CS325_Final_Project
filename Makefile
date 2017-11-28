@@ -10,8 +10,8 @@
 #	rule to build
 #
 
-tspProject: main.cpp calculateEdgeList.cpp calculateEdgeList.hpp
-	g++ -std=c++0x main.cpp calculateEdgeList.cpp -o tspProject
+tspProject: main.cpp calculateEdgeList.cpp calculateEdgeList.hpp mergeSort.cpp mergeSort.hpp
+	g++ -std=c++0x main.cpp calculateEdgeList.cpp mergeSort.cpp -o tspProject
 
 #cleans extraneous files
 clean:

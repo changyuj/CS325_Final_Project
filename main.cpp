@@ -15,6 +15,8 @@
 #include <vector>
 
 #include "calculateEdgeList.hpp"
+#include "mergeSort.hpp"
+
 int main(int argc, char** argv)
 {
 
@@ -61,8 +63,19 @@ int main(int argc, char** argv)
 		//creates a vector holding a calculated edge list
 		std::vector<std::pair<std::string, int>>  cityDistances = calculateEdgeList(cities);
 
+		mergeSort(cityDistances);
+
+		//creates the outputfile and opens it
+		std::ofstream outputFile("test.txt");
+
+		for (int i = 0; i < cityDistances.size(); i++) {
+			outputFile << cityDistances[i].first << " " << cityDistances[i].second << std::endl;
+		}
+
 		//close the input file
 		inputFile.close();
+
+		outputFile.close();
 	}
 
 	//if the file cannot be opened, displays a message alerting the user
