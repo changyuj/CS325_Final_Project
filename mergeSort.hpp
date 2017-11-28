@@ -21,10 +21,10 @@
 #include<string>
 
 //function prototype for mergeSort
-void mergeSort(std::vector<std::pair<std::string, int>>&);
+void mergeSort(std::vector<std::pair<int, int>>&);
 
 //helper function for mergeSort which merges two sorted lists
-void merge(std::vector<std::pair<std::string, int>>&, std::vector<std::pair<std::string, int>>&, std::vector<std::pair<std::string, int>>&);
+void merge(std::vector<std::pair<int, int>>&, std::vector<std::pair<int, int>>&, std::vector<std::pair<int, int>>&);
 
 
 #endif

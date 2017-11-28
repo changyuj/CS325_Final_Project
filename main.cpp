@@ -16,6 +16,8 @@
 
 #include "calculateEdgeList.hpp"
 #include "mergeSort.hpp"
+#include "createAdjacencyList.hpp"
+#include "nearestNeighbor.hpp"
 
 int main(int argc, char** argv)
 {
@@ -36,7 +38,7 @@ int main(int argc, char** argv)
 
 		std::string currentString; 
 
-		std::vector<std::pair<std::string, std::pair<int, int>>> cities;
+		std::vector<std::pair<int, std::pair<int, int>>> cities;
 		int cityID;
 		int xCoord;
 		int yCoord;
@@ -49,33 +51,38 @@ int main(int argc, char** argv)
 			currentLine >> cityID;
 			currentLine >> xCoord;
 			currentLine >> yCoord;
-			
-			//changes the cityID to a string for ease of use later on
-			std::string stringCity = std::to_string(cityID);
+
 
 			//creates the pair of x and y coordinates and then creates the pair of city + coordinates
 			std::pair<int, int> coordinatePair(xCoord, yCoord);
-			std::pair<std::string, std::pair<int, int>> cityAndCoordPair(stringCity, coordinatePair);
+			std::pair<int, std::pair<int, int>> cityAndCoordPair(cityID, coordinatePair);
 			cities.push_back(cityAndCoordPair);
 		}
 
+		std::unordered_map<int, std::vector<std::pair<int, int>>> adjacencyList = createAdjacencyList(cities);
+		
+		std::cout << "ADJACENCY LIST SIZE: " << adjacencyList.size() << std::endl;
 
-		//creates a vector holding a calculated edge list
-		std::vector<std::pair<std::string, int>>  cityDistances = calculateEdgeList(cities);
+		std::vector<std::pair<int, int>> tspList = nearestNeighbor(cities, adjacencyList);
 
-		mergeSort(cityDistances);
+		std::cout << "TSP LIST SIZE: " << tspList.size() << std::endl;
 
-		//creates the outputfile and opens it
-		std::ofstream outputFile("test.txt");
 
-		for (int i = 0; i < cityDistances.size(); i++) {
-			outputFile << cityDistances[i].first << " " << cityDistances[i].second << std::endl;
+		std::ofstream outputFile("text.txt");
+
+		int totalDistance = 0;
+
+		for (int i = 0; i < tspList.size(); i++) {
+			
+			outputFile << tspList[i].first << " " << tspList[i].second << std::endl;
+			totalDistance += tspList[i].second;
 		}
-
-		//close the input file
-		inputFile.close();
+		
+		outputFile << "Total Distance: " << totalDistance;
 
 		outputFile.close();
+		//close the input file
+		inputFile.close();
 	}
 
 	//if the file cannot be opened, displays a message alerting the user
