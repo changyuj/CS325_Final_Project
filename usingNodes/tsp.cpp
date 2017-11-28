@@ -36,7 +36,7 @@ Node* createNode(int id, int x, int y, map<int, int>* adjList)
 	newNode->cityID = id;
 	newNode->xCoordinate = x;
 	newNode->yCoordinate = y;
-	newNode->connectingCity  = NULL;
+	newNode->connectingCity = NULL;
     newNode->adjacencyList = *adjList;
 
     return newNode;

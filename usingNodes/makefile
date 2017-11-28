@@ -1,2 +1,2 @@
 tsp:  tsp.cpp
-	g++ tsp.cpp -o tsp
+	g++ -std=c++0x tsp.cpp -o tsp
