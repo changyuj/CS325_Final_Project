@@ -100,8 +100,11 @@ int main(int argc, char *argv[])
     clock_t start = clock();
 
 	//read in file from argument
+    string infile = "";
+    infile = argv[1];
     ifstream readFile;
-    readFile.open(argv[1]);
+    readFile.open(infile);
+
     if (!readFile) {
         cout << "Cannot open file: " << argv[1] << endl;
         // exit(1);
@@ -150,17 +153,24 @@ int main(int argc, char *argv[])
         current = current->connectingCity;
     } while (tour.size() < numCities);
     // connect the last city to the first one to complete the tour
-    current->connectingCity = startNode;
-    total += current->adjacencyList.find(startNode->cityID)->second;
-    cout << total << endl;
+    total += connectCity(current, startNode);
+    // current->connectingCity = startNode;
+    // total += current->adjacencyList.find(startNode->cityID)->second;
+
+    string outfile = infile + ".tour";
+    ofstream writeFile;
+    writeFile.open(outfile);
+    writeFile << total << endl;
 
     // output tour to screen
-    // Node* traverse = startNode;
-    // do
-    // {
-    //     cout << traverse->cityID << endl;
-    //     traverse = traverse->connectingCity;
-    // } while(traverse != startNode);
+    Node* traverse = startNode;
+    do
+    {
+        writeFile << traverse->cityID << endl;
+        traverse = traverse->connectingCity;
+    } while(traverse != startNode);
+
+    writeFile.close();
 
     clock_t end = clock();
     double elapsed = (double)(end - start) / CLOCKS_PER_SEC;
