@@ -194,16 +194,16 @@ int main(int argc, char *argv[])
     Option 1 - connect all the nodes in the order they were read in
     */
     // start comment here if choosing Option 2
-    map<int, Node*>::iterator next = cityMap.begin();
-    for (map<int, Node*>::iterator itr = cityMap.begin(); itr != cityMap.end(); itr++)
-    {
-        currentRoute.push_back(itr->first);
-        next++;
-        if (next == cityMap.end())  // connect last city to first city for cycle
-            next = cityMap.begin();
-        total += connectCity(itr->second, next->second);
-        // cout << "Add city " << itr->first << " -> " << next->first << ": "<< total << endl;
-    }
+    // map<int, Node*>::iterator next = cityMap.begin();
+    // for (map<int, Node*>::iterator itr = cityMap.begin(); itr != cityMap.end(); itr++)
+    // {
+    //     currentRoute.push_back(itr->first);
+    //     next++;
+    //     if (next == cityMap.end())  // connect last city to first city for cycle
+    //         next = cityMap.begin();
+    //     total += connectCity(itr->second, next->second);
+    //     // cout << "Add city " << itr->first << " -> " << next->first << ": "<< total << endl;
+    // }
     // end comment here
 
     Node* startNode = cityMap[0];
@@ -212,21 +212,21 @@ int main(int argc, char *argv[])
     Option 2 - nearest neighbor algo
     */
     // start comment here if choosing Option 1
-    // Node* current = startNode;
-    // set<int> visited;
-    // visited.insert(startNode->cityID);
-    // currentRoute.push_back(current->cityID);
-    // // loop until all cities are visited
-    // do
-    // {
-    //     int minId = getNearestNeighbor(current, visited);
-    //     visited.insert(minId);
-    //     total += connectCity(current, cityMap[minId]);
-    //     current = current->next;
-    //     currentRoute.push_back(current->cityID);
-    // } while (visited.size() < numCities);
-    // // connect the last city to the first one to complete the tour
-    // total += connectCity(current, startNode);
+    Node* current = startNode;
+    set<int> visited;
+    visited.insert(startNode->cityID);
+    currentRoute.push_back(current->cityID);
+    // loop until all cities are visited
+    do
+    {
+        int minId = getNearestNeighbor(current, visited);
+        visited.insert(minId);
+        total += connectCity(current, cityMap[minId]);
+        current = current->next;
+        currentRoute.push_back(current->cityID);
+    } while (visited.size() < numCities);
+    // connect the last city to the first one to complete the tour
+    total += connectCity(current, startNode);
     // cout << total << endl;
 
 
