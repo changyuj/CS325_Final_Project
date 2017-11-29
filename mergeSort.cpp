@@ -25,15 +25,15 @@
 ** Pre-Conditions: none
 ** Post-Conditions: arrayOfInts holds a sorted list of integers
 *********************************************************************/
-void mergeSort(std::vector<std::pair<std::string, int>>& arrayOfInts) {
+void mergeSort(std::vector<std::pair<int, int>>& arrayOfInts) {
 
 	//if the size of the array is 1 or less, then the array is already sorted and nothing needs to be done
 	if (arrayOfInts.size() > 1) {
 
 		//use info from the following link to split the vector into two arrays
 		//http://www.cplusplus.com/reference/vector/vector/vector/
-		std::vector<std::pair<std::string, int>> rightArray((arrayOfInts.begin() + (arrayOfInts.size() / 2)), arrayOfInts.end());
-		std::vector<std::pair<std::string, int>> leftArray(arrayOfInts.begin(), (arrayOfInts.begin() + (arrayOfInts.size() / 2)));
+		std::vector<std::pair<int, int>> rightArray((arrayOfInts.begin() + (arrayOfInts.size() / 2)), arrayOfInts.end());
+		std::vector<std::pair<int, int>> leftArray(arrayOfInts.begin(), (arrayOfInts.begin() + (arrayOfInts.size() / 2)));
 
 		//calls mergeSort recursively on each half of the array
 		mergeSort(rightArray);
@@ -59,8 +59,8 @@ void mergeSort(std::vector<std::pair<std::string, int>>& arrayOfInts) {
 ** Post-Conditions: mergedList holds the sorted combination of
 **					leftArray and rightArray
 *********************************************************************/
-void merge(std::vector<std::pair<std::string, int>>& mergedList, std::vector<std::pair<std::string, int>>& rightArray,
-	std::vector<std::pair<std::string, int>>& leftArray) {
+void merge(std::vector<std::pair<int, int>>& mergedList, std::vector<std::pair<int, int>>& rightArray,
+	std::vector<std::pair<int, int>>& leftArray) {
 
 	//variables for keeping track which element is next to be accessed in each array
 	int mergedListLocation = 0;
