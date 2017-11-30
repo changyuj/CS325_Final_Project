@@ -21,7 +21,14 @@
 
 int main(int argc, char *argv[])
 {
-    clock_t start = clock();
+    srand(10000);  // set the random generator seed
+
+    // make sure program does not run for more than 3 minutes
+    clock_t clock_start = clock();
+    time_t start = time(NULL);
+    time_t seconds = 175;
+    time_t endwait = start + seconds;
+
 
 	//gets the name of the file from the command line
     std::string fileName = "";
@@ -60,7 +67,7 @@ int main(int argc, char *argv[])
 		int total = 0;
 		std::vector<int> currentRoute;
 
-		Node* startNode = cityMap[0];
+		Node* startNode = cityMap[rand() % numCities];
 
 		// Nearest neighbor algorithm
 		Node* current = startNode;
@@ -80,7 +87,82 @@ int main(int argc, char *argv[])
 		// connect the last city to the first one to complete the tour
 		total += connectCity(current, startNode);
 
-        int bestDistance = two_opt(currentRoute, cityMap, total, startNode);
+        // int bestDistance = two_opt(currentRoute, cityMap, total, startNode);
+
+        /*
+        Optimization - Simulated Annealing
+        */
+        bool improve = true;
+        int bestDistance = total;  // start with Nearest Neighbor solution
+        int newDistance;
+        std::vector<int> newRoute;
+
+        // index of city in route list
+        int i, k;
+
+        // Simulated Annealing parameters
+    	double temperature = 1;
+    	double coolingRate = 0.99;
+    	double minTemperature = 0.0001;
+    	double acceptanceProbability, randomProbability;
+    	int numIterations = 1000;
+
+    	int j;  // loop counter
+
+        std::cout << bestDistance << std::endl;
+        while (temperature > minTemperature && improve)
+        {
+    		for (j = 0; j < numIterations; j++)
+    			{
+                // select two random cities
+    	        do {
+    	            i = rand() % numCities;
+    	        } while (i == 0 || i == (numCities-1));
+    	        do {
+    	            k = rand() % numCities;
+    	        } while (k <= i);
+
+                // check if swapping the cities in the route makes a better solution
+    	        newRoute = twoOptSwap(startNode, cityMap[currentRoute[i]], cityMap[currentRoute[k]]);
+    	        newDistance = calculateTotalDistance(newRoute, cityMap);
+
+                //do nothing if the solution is the same
+    	        if (newDistance == bestDistance)
+    			{
+    				continue;
+    			}
+                // swap if the new solution is better
+    			else if (newDistance < bestDistance)
+    	        {
+    	            currentRoute = newRoute;
+    	            reconnectNodes(currentRoute, cityMap);
+    				bestDistance = calculateTotalDistance(currentRoute, cityMap);
+    				std::cout << bestDistance << std::endl;
+    	        }
+                // possibly still wap if new solution is worse
+    			else
+    			{
+    				acceptanceProbability = exp((bestDistance - newDistance) / temperature);
+    				randomProbability = (double) (rand() / (RAND_MAX + 1.0));
+    				if (acceptanceProbability > randomProbability)
+    				{
+    					std::cout << bestDistance << ", " << newDistance << ": " << temperature << ", " << acceptanceProbability << ", " << randomProbability << ": " << bestDistance << std::endl;
+    					currentRoute = newRoute;
+    					reconnectNodes(currentRoute, cityMap);
+    					bestDistance = calculateTotalDistance(currentRoute, cityMap);
+    				}
+    			}
+                // check if program has run for 3 minutes
+    		    start = time(NULL);
+    		    if (start >= endwait)
+    		    {   // stop program if run for 3 minutes
+    		        improve = false;
+    		        break;
+    		    }
+    		}
+            // cooling
+    		temperature *= coolingRate;
+        }
 
 		// output tour to file
 		std::string outfile = fileName + ".tour";
@@ -99,8 +181,8 @@ int main(int argc, char *argv[])
 		writeFile.close();
 
 		// output time to run
-		clock_t end = clock();
-		double elapsed = (double)(end - start) / CLOCKS_PER_SEC;
+		clock_t clock_end = clock();
+		double elapsed = (double)(clock_end - clock_start) / CLOCKS_PER_SEC;
 		std::cout << "Time elapsed: " << elapsed << std::endl;
 
 		//close the input file
