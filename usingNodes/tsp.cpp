@@ -160,7 +160,10 @@ void reconnectNodes(vector<int> route, map<int, Node*>& cityMap)
 
 int main(int argc, char *argv[])
 {
-    clock_t start = clock();
+    clock_t clock_start = clock();
+    time_t start = time(NULL);
+    time_t seconds = 175;
+    time_t endwait = start + seconds;
 
 	//read in file from argument
     string infile = "";
@@ -228,6 +231,7 @@ int main(int argc, char *argv[])
     // connect the last city to the first one to complete the tour
     total += connectCity(current, startNode);
     // cout << total << endl;
+    // end comment here
 
 
     /*
@@ -237,26 +241,60 @@ int main(int argc, char *argv[])
     int bestDistance = total;
     int newDistance;
     vector<int> newRoute;
+
+    srand(325);
+    int i, k;
+
+    cout << bestDistance << endl;
     do
     {
         improve = false;
-        bestDistance = calculateTotalDistance(currentRoute, cityMap);
-        cout << bestDistance << endl;
-        for (int i = 1; i < currentRoute.size() - 1; i++)
+
+        do {
+            i = rand() % numCities;
+        } while (i == 0);
+        do {
+            k = rand() % numCities;
+        } while (k == i || k == 0);
+
+        newRoute = twoOptSwap(startNode, cityMap[currentRoute[i]], cityMap[currentRoute[k]]);
+        newDistance = calculateTotalDistance(newRoute, cityMap);
+        if (newDistance < bestDistance)
         {
-            for (int k = i + 1; k < currentRoute.size(); k++)
-            {
-                newRoute = twoOptSwap(startNode, cityMap[currentRoute[i]], cityMap[currentRoute[k]]);
-                newDistance = calculateTotalDistance(newRoute, cityMap);
-                if (newDistance < bestDistance)
-                {
-                    currentRoute = newRoute;
-                    reconnectNodes(currentRoute, cityMap);
-                    improve = true;
-                }
-            }
+            cout << newDistance << endl;
+            currentRoute = newRoute;
+            reconnectNodes(currentRoute, cityMap);
         }
-    } while (improve);
+
+        // for (int i = 1; i < currentRoute.size() - 1; i++)
+        // {
+        //     for (int k = i + 1; k < currentRoute.size(); k++)
+        //     {
+        //         newRoute = twoOptSwap(startNode, cityMap[currentRoute[i]], cityMap[currentRoute[k]]);
+        //         newDistance = calculateTotalDistance(newRoute, cityMap);
+        //         if (newDistance < bestDistance)
+        //         {
+        //             currentRoute = newRoute;
+        //             reconnectNodes(currentRoute, cityMap);
+        //             improve = true;
+        //         }
+        //         start = time(NULL);
+        //         if (start >= endwait)
+        //         {
+        //             improve = false;
+        //             break;
+        //         }
+        //     }
+        //     start = time(NULL);
+        //     if (start >= endwait)
+        //     {
+        //         improve = false;
+        //         break;
+        //     }
+        // }
+        bestDistance = calculateTotalDistance(currentRoute, cityMap);
+        start = time(NULL);
+    } while (start <= endwait);
 
     // output tour to file
     string outfile = infile + ".tour";
@@ -274,8 +312,8 @@ int main(int argc, char *argv[])
     writeFile.close();
 
     // output time to run
-    clock_t end = clock();
-    double elapsed = (double)(end - start) / CLOCKS_PER_SEC;
+    clock_t clock_end = clock();
+    double elapsed = (double)(clock_end - clock_start) / CLOCKS_PER_SEC;
     cout << "Time elapsed: " << elapsed << endl;
 
     return 0;
