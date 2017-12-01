@@ -1,9 +1,13 @@
 /*********************************************************************
 ** Program name: TSP Problem
-** Author: Group 15
+** Author: Group 14
+**         Katherine Isabella
+**         Kenny Lew
+**         Yu Ju Chang
 ** Date: 29 November 2017
 ** Description: This program creates a route for the TSP and finds
-**              the optimum solution.
+**              an approximate solution using Nearest Neighbor,
+**              Simulated Annealing, and 2-Opt Swap.
 **
 *********************************************************************/
 
@@ -108,8 +112,10 @@ int main(int argc, char *argv[])
     	int numIterations = 1000;
 
     	int j;  // loop counter
+        if (numCities > 2000)
+            minTemperature = 0.001;
 
-        std::cout << bestDistance << std::endl;
+        // std::cout << bestDistance << std::endl;
         while (temperature > minTemperature && improve)
         {
     		for (j = 0; j < numIterations; j++)
@@ -137,7 +143,7 @@ int main(int argc, char *argv[])
     	            currentRoute = newRoute;
     	            reconnectNodes(currentRoute, cityMap);
     				bestDistance = calculateTotalDistance(currentRoute, cityMap);
-    				std::cout << bestDistance << std::endl;
+    				// std::cout << bestDistance << std::endl;
     	        }
                 // possibly still wap if new solution is worse
     			else
@@ -146,12 +152,13 @@ int main(int argc, char *argv[])
     				randomProbability = (double) (rand() / (RAND_MAX + 1.0));
     				if (acceptanceProbability > randomProbability)
     				{
-    					std::cout << bestDistance << ", " << newDistance << ": " << temperature << ", " << acceptanceProbability << ", " << randomProbability << ": " << bestDistance << std::endl;
+    					// std::cout << bestDistance << std::endl;
     					currentRoute = newRoute;
     					reconnectNodes(currentRoute, cityMap);
     					bestDistance = calculateTotalDistance(currentRoute, cityMap);
     				}
     			}
+                // COMMENT OUT IF RUNNING WITH UNLIMITED TIME
                 // check if program has run for 3 minutes
     		    start = time(NULL);
     		    if (start >= endwait)
@@ -163,6 +170,7 @@ int main(int argc, char *argv[])
             // cooling
     		temperature *= coolingRate;
         }
+		std::cout << "Distance: " << bestDistance << std::endl;
 
 		// output tour to file
 		std::string outfile = fileName + ".tour";

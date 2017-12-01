@@ -1,2 +1,8 @@
 # CS325_Final_Project
-TSP implementation 
+TSP implementation
+
+## Compiling Instructions
+`make`
+
+## Run
+`./tspProject [file]`
