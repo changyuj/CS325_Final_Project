@@ -2,7 +2,7 @@
 ** Program name: TSP
 ** Author: Group 14
 ** Date: 29 November 2017
-** Description: **FILL IN**
+** Description: **Node functions for creating and connecting nodes**
 *********************************************************************/
 
 #ifndef NODE_HPP
