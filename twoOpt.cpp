@@ -7,16 +7,8 @@
 
 #include "twoOpt.hpp"
 
-
-/*********************************************************************
-** Function: nearestNeighbor
-** Description: **FILL IN**
-** Parameters:  **FILL IN**
-** Pre-Conditions: **FILL IN**
-** Post-Conditions: **FILL IN**
-*********************************************************************/
-
-
+/*
+//performs two-opt optimization 
 int two_opt(std::vector<int> &currentRoute, std::map<int, Node*> & cityMap,int total, Node* &startNode) {
 	bool improve = true;
     int bestDistance = total;
@@ -44,6 +36,7 @@ int two_opt(std::vector<int> &currentRoute, std::map<int, Node*> & cityMap,int t
     } while (improve);
     return bestDistance;
 }
+*/
 
 // performs a swap so that routes of the two nodes do not cross over each other
 std::vector<int> twoOptSwap(struct Node* startNode, struct Node* i, struct Node* k) {
