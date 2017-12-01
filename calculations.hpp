@@ -2,7 +2,8 @@
 ** Program name: TSP
 ** Author: Group 14
 ** Date: 29 November 2017
-** Description: **FILL IN**
+** Description: calculation functions for distances between cities
+                and the total route
 *********************************************************************/
 
 #ifndef CALCULATIONS_HPP
