@@ -2,7 +2,8 @@
 ** Program name: TSP
 ** Author: Group 14
 ** Date: 29 November 2017
-** Description: **FILL IN**
+** Description: functions needed for connecting city, map and init
+**             initial route
 *********************************************************************/
 
 #ifndef CITIES_HPP
