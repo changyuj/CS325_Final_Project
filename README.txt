@@ -19,6 +19,6 @@ Using the above file information, the output will be:
 5
 1
 
-How to Run: To run the program there is a makefile included with the project. To use the makefile on putty, use the "make" command in the same folder containing the file with the cities and coordinates, Makefile, main.cpp, calculations.cpp, calculations.hpp, node.cpp, node.hpp, cities.cpp, cities.hpp, twoOpt.cpp, and twoOpt.hpp. This will compile the program. To run the program, you must then type in "tspProject" followed by the name of your input file (for example: "tspProject tsp_example_1.txt") and press enter. Once tspProject completes running, you will see the output .tour file in the same folder.
+How to Run: To run the program there is a makefile included with the project. To use the makefile on putty, use the "make" command in the same folder containing the file with the cities and coordinates (your input file), Makefile, main.cpp, calculations.cpp, calculations.hpp, node.cpp, node.hpp, cities.cpp, cities.hpp, twoOpt.cpp, and twoOpt.hpp. This will compile the program. To run the program, you must then type in "tspProject" followed by the name of your input file (for example: "tspProject tsp_example_1.txt") and press enter. Once tspProject completes running, you will see the output .tour file in the same folder.
 
 Once you are done with the programs you can use the "make clean" command to remove the tspProject program.
