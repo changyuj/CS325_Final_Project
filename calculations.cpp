@@ -7,6 +7,7 @@
 
 #include "calculations.hpp"
 
+//calculates the Euclidean distance between two cities
 int calculateDistance(int x1, int x2, int y1, int y2) {
 
 	int xCoordCalc = x1 - x2;
