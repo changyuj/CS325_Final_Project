@@ -19,6 +19,7 @@ int calculateDistance(int x1, int x2, int y1, int y2) {
 	return (int) round(distance);
 }
 
+//goes through the route to calculate the total distance of the tour
 int calculateTotalDistance(std::vector<int> route, std::map<int, Node*>& cityMap) {
     int totalDistance = 0;
     int distance;
